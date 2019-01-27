@@ -1,0 +1,107 @@
+﻿
+@{
+    ViewBag.Title = "Dashboard";
+    ViewBag.ContentTitle = "Dashboard";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@if(TempData["Message"] != null)
+{
+    <div class="row">
+        <div class="col-sm-8 col-sm-offset-2 text-center">
+            <div class="alert alert-@TempData["MessageType"]">
+                @Html.Raw(TempData["Message"])
+            </div>
+        </div>
+    </div>
+}
+
+<div class="row">
+    <div class="col-sm-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Departments
+            </div>
+            <div class="panel-body">
+                <ul class="list-group">
+                    <li class="list-group-item"><a href="@Url.Action("", "department")">Show Departments</a></li>
+                    <li class="list-group-item"><a href="@Url.Action("create", "department")">Add Department</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Courses
+            </div>
+            <div class="panel-body">
+                <ul class="list-group">
+                    <li class="list-group-item"><a href="@Url.Action("", "course")">Show Courses</a></li>
+                    <li class="list-group-item"><a href="@Url.Action("create", "course")">Add Course</a></li>
+                    <li class="list-group-item"><a href="@Url.Action("classroom-allocation", "course")">Classroom Allocation</a></li>
+                    <li class="list-group-item"><a href="@Url.Action("course-schedule", "course")">Course/Room Schedule</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Teachers
+            </div>
+            <div class="panel-body">
+                <ul class="list-group">
+                    <li class="list-group-item"><a href="@Url.Action("", "teacher")">Show Teachers</a></li>
+                    <li class="list-group-item"><a href="@Url.Action("add", "teacher")">Add Teacher</a></li>
+                    <li class="list-group-item"><a href="@Url.Action("assign-course", "teacher")">Assign Course</a></li>
+                    <li class="list-group-item"><a href="@Url.Action("course-statics", "teacher")">Course Statics</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-sm-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Students
+            </div>
+            <div class="panel-body">
+                <ul class="list-group">
+                    <li class="list-group-item"><a href="@Url.Action("", "student")">Show Students</a></li>
+                    <li class="list-group-item"><a href="@Url.Action("register", "student")">Add Student</a></li>
+                    <li class="list-group-item"><a href="@Url.Action("enroll-course", "student")">Enroll Course</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Results
+            </div>
+            <div class="panel-body">
+                <ul class="list-group">
+                    <li class="list-group-item"><a href="@Url.Action("view-result", "student")">Show Result</a></li>
+                    <li class="list-group-item"><a href="@Url.Action("add-result", "student")">Add Result</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Operations
+            </div>
+            <div class="panel-body">
+                <ul class="list-group">
+                    <li class="list-group-item"><a href="@Url.Action("unassign-course", "course")">Unassign All Courses</a></li>
+                    <li class="list-group-item"><a href="@Url.Action("unallocate-room", "course")">Unallocate All Classrooms</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,59 @@
+﻿@{
+    ViewBag.Title = "Unallocate Rooms";
+    ViewBag.contentTitle = "Unallocate Rooms";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@section Styles{
+    <link href="~/assets/css/sweetalert.css" rel="stylesheet" />
+}
+
+@if (ViewBag.Message != null)
+{
+    <div class="row">
+        <div class="col-sm-8 col-sm-offset-2 text-center">
+            <div class="alert alert-@ViewBag.MessageType">
+                @Html.Raw(ViewBag.Message)
+            </div>
+        </div>
+    </div>
+}
+<div class="row">
+    <form id="unallocate" method="post">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="unallocate" value="true" />
+    </form>
+    <div class="col-sm-4 col-sm-offset-4 text-center">
+        <a id="confirm" class="btn btn-warning btn-block btn-lg">Unallocate Rooms</a>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/assets/js/sweetalert.min.js"></script>
+    <script>
+        $(function () {
+            $('#confirm').click(function () {
+                swal({
+                        title: "Are you sure?",
+                        text: "This will unallocate all rooms from courses.",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonClass: "btn-danger",
+                        confirmButtonText: "Yes, continue",
+                        cancelButtonText: "No, cancel",
+                        closeOnConfirm: false,
+                        closeOnCancel: false
+                    },
+                    function (isConfirm) {
+                        if (isConfirm) {
+                            swal("Assigning!", "Please, wait...", "success");
+                            $('#unallocate').submit();
+
+                        } else {
+                            swal("Not assigned!", "Unallocate cancelled.", "error");
+                        }
+                    });
+            });
+        });
+    </script>
+}

@@ -1,0 +1,113 @@
+﻿@model UoUWebApp.Models.TeacherModel
+
+@{
+    ViewBag.Title = "Add Teacher";
+    ViewBag.ContentTitle = "Add Teacher";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@section Styles{
+    <link href="~/assets/css/colors.css" rel="stylesheet" />
+}
+
+@using (Html.BeginForm("add", "teacher", FormMethod.Post, new { @class = "form", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="row text-right">
+        @Html.ActionLink("Teachers List", "Index")
+    </div>
+
+    <div class="row">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TeacherName, htmlAttributes: new { @class = "control-label" })
+                    <div class="input-group">
+                        <span class="input-group-addon"></span>
+                        @Html.EditorFor(model => model.TeacherName, new { htmlAttributes = new { @class = "form-control black" } })
+                    </div>
+                    @Html.ValidationMessageFor(model => model.TeacherName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TeacherEmail, htmlAttributes: new { @class = "control-label" })
+                    <div class="input-group">
+                        <span class="input-group-addon"></span>
+                        @Html.EditorFor(model => model.TeacherEmail, new { htmlAttributes = new { @class = "form-control black" } })
+                    </div>
+                    @Html.ValidationMessageFor(model => model.TeacherEmail, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TeacherContact, htmlAttributes: new { @class = "control-label" })
+                    <div class="input-group">
+                        <span class="input-group-addon"></span>
+                        @Html.EditorFor(model => model.TeacherContact, new { htmlAttributes = new { @class = "form-control black" } })
+                    </div>
+                    @Html.ValidationMessageFor(model => model.TeacherContact, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TeacherAddress, htmlAttributes: new { @class = "control-label" })
+                    <div class="input-group">
+                        <span class="input-group-addon"></span>
+                        @Html.EditorFor(model => model.TeacherAddress, new { htmlAttributes = new { @class = "form-control black" } })
+                    </div>
+                    @Html.ValidationMessageFor(model => model.TeacherAddress, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TeacherDesignationId, htmlAttributes: new { @class = "control-label" })
+                    <div class="input-group">
+                        <span class="input-group-addon"></span>
+                        @Html.DropDownListFor(model => model.TeacherDesignationId, null, "--Select--", htmlAttributes: new { @class = "form-control black" })
+                    </div>
+                    @Html.ValidationMessageFor(model => model.TeacherDesignationId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TeacherDeptId, htmlAttributes: new { @class = "control-label" })
+                    <div class="input-group">
+                        <span class="input-group-addon"></span>
+                        @Html.DropDownListFor(model => model.TeacherDeptId, null, "--Select--", htmlAttributes: new { @class = "form-control black" })
+                    </div>
+                    @Html.ValidationMessageFor(model => model.TeacherDeptId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TotalCredit, htmlAttributes: new { @class = "control-label" })
+                    <div class="input-group">
+                        <span class="input-group-addon"></span>
+                        @Html.EditorFor(model => model.TotalCredit, new { htmlAttributes = new { @class = "form-control black" } })
+                    </div>
+                    @Html.ValidationMessageFor(model => model.TotalCredit, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-success" />
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts{
+    @Html.Partial("~/Views/Shared/_jQueryValidatorBootstrapStyle.cshtml");
+}

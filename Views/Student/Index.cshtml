@@ -1,0 +1,74 @@
+﻿@model IEnumerable<UoUWebApp.Models.StudentModel>
+
+@{
+    ViewBag.Title = "Students";
+    ViewBag.ContentTitle = "Student List";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@section Styles{
+    <link href="~/assets/css/jquery.dataTables.min.css" rel="stylesheet" />
+}
+
+<p>
+    @Html.ActionLink("Register Student", "register")
+</p>
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.StudentRegNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StudentName)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.StudentEmail)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StudentContact)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RegDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DepartmentModel.DeptCode)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StudentRegNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StudentName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StudentEmail)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StudentContact)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RegDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DepartmentModel.DeptCode)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts{
+    <script src="~/assets/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(function () {
+            $('.table').DataTable();
+        });
+    </script>
+}

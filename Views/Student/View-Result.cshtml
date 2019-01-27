@@ -1,0 +1,128 @@
+﻿@model UoUWebApp.Models.StudentCourseModel
+
+@{
+    ViewBag.Title = "View Result";
+    ViewBag.ContentTitle = "View Result";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@section Styles{
+    <link href="~/assets/css/jquery.dataTables.min.css" rel="stylesheet" />
+}
+
+@using (Html.BeginForm("view-result", "student", FormMethod.Post, new { @class = "form", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="row">
+        <div class="col-sm-12 text-right">
+            @Html.ActionLink("Add Result", "add-result")
+        </div>
+    </div>
+    <div class="row">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="col-sm-12">
+            <div class="form-group">
+                @Html.LabelFor(model => model.StudentCourseStudentId, htmlAttributes: new { @class = "control-label" })
+                <div class="input-group">
+                    <span class="input-group-addon"></span>
+                    @Html.DropDownListFor(model => model.StudentCourseStudentId, null, "--select--", htmlAttributes: new { @class = "form-control black" })
+                </div>
+                @Html.ValidationMessageFor(model => model.StudentCourseStudentId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label for="StudentName">Student Name</label>
+                <div class="input-group">
+                    <span class="input-group-addon"></span>
+                    <input type="text" id="StudentName" class="form-control black" disabled="disabled" />
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label for="StudentEmail">Student Email</label>
+                <div class="input-group">
+                    <span class="input-group-addon"></span>
+                    <input type="text" id="StudentEmail" class="form-control black" disabled="disabled" />
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label for="Department">Department</label>
+                <div class="input-group">
+                    <span class="input-group-addon"></span>
+                    <input type="text" id="Department" class="form-control black" disabled="disabled" />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 text-right">
+            <a target="_blank" id="show" href="#" class="btn btn-success disabled">Show Result</a>
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+            <a target="_blank" id="print" href="#" class="btn btn-success disabled">Make PDF</a>
+        </div>
+    </div>
+    <br/>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <table class="table table-stripped table-hover">
+                <thead>
+                    <tr>
+                        <th class="text-center">Course Code</th>
+                        <th class="text-center">Course Name</th>
+                        <th class="text-center">Grade</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+}
+
+@section Scripts{
+    <script src="~/assets/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(function () {
+            $('.table').addClass('hide');
+            $('#StudentCourseStudentId').change(function () {
+                var table = $('.table').DataTable();
+                table.clear().draw(false);
+
+                if ($(this).val() == "") {
+                    $("#StudentName").val("");
+                    $("#StudentEmail").val("");
+                    $("#Department").val("");
+                    $('#show').addClass('disabled').removeAttr('href');
+                    $('#print').addClass('disabled').removeAttr('href');
+                    return;
+                }
+
+                $('#show').removeClass('disabled').attr('href', '@Url.Content("~/student/ResultView/")' + $(this).val());
+                $('#print').removeClass('disabled').attr('href', '@Url.Content("~/student/print/")' + $(this).val());
+
+                $.post('@Url.Action("GetStudentResult")', { studentId: $(this).val() }, function (data) {
+                    $('#StudentName').val(data.StudentName);
+                    $('#StudentEmail').val(data.StudentEmail);
+                    $('#Department').val(data.StudentDeptment);
+
+                    table.destroy();
+                    table = $('.table').DataTable({ aaSorting: [] });
+                    table.clear().draw(false);
+                    $('.table').removeClass('hide');
+                    $.each(data.CourseResult, function (key, value) {
+                        table.row.add([
+                            value.CourseCode,
+                            value.CourseName,
+                            value.Grade,
+                        ]).draw(false);
+                    });
+                });
+            });
+        });
+    </script>
+}

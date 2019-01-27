@@ -1,0 +1,94 @@
+﻿@model UoUWebApp.Models.CourseModel
+
+@{
+    ViewBag.Title = "Create Course";
+    ViewBag.ContentTitle = "Create Course";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@section Styles{
+    <link href="~/assets/css/colors.css" rel="stylesheet" />
+}
+
+@using (Html.BeginForm("create", "course", FormMethod.Post, new { @class = "form", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="row text-right">
+        @Html.ActionLink("All Courses", "Index")
+    </div>
+    if(ViewBag.Message != null)
+    {
+        <div class="row">
+            <div class="col-sm-6 col-sm-offset-3">
+                <div class="alert alert-@ViewBag.MessageType">
+                    @Html.Raw(ViewBag.Message)
+                </div>
+            </div>
+        </div>
+    }
+    <div class="row black">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.CourseCode, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.EditorFor(model => model.CourseCode, new { htmlAttributes = new { @class = "form-control black" } })
+            </div>
+            @Html.ValidationMessageFor(model => model.CourseCode, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CourseName, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.EditorFor(model => model.CourseName, new { htmlAttributes = new { @class = "form-control black" } })
+            </div>
+            @Html.ValidationMessageFor(model => model.CourseName, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CourseCredit, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.EditorFor(model => model.CourseCredit, new { htmlAttributes = new { @class = "form-control black" } })
+            </div>
+            @Html.ValidationMessageFor(model => model.CourseCredit, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CourseDesc, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.EditorFor(model => model.CourseDesc, new { htmlAttributes = new { @class = "form-control black" } })
+            </div>
+            @Html.ValidationMessageFor(model => model.CourseDesc, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CourseDeptId, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.DropDownListFor(model => model.CourseDeptId, null, "--Select--", htmlAttributes: new { @class = "form-control black" })
+            </div>
+            @Html.ValidationMessageFor(model => model.CourseDeptId, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CourseSemesterId, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.DropDownListFor(model => model.CourseSemesterId, null, "--Select--", htmlAttributes: new { @class = "form-control black" })
+            </div>
+            @Html.ValidationMessageFor(model => model.CourseSemesterId, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="Create" class="btn btn-default" />
+        </div>
+    </div>
+}
+
+@section Scripts{
+    @Html.Partial("~/Views/Shared/_jQueryValidatorBootstrapStyle.cshtml");
+}

@@ -1,0 +1,323 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+	<title>@ViewBag.Title - University of Universe</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="keywords" content="" />
+
+	<!-- Bootstrap Core CSS -->
+	<link href="~/assets/css/bootstrap.min.css" rel="stylesheet" />
+	<link href="~/assets/css/bootstrap-datepicker3.min.css" rel="stylesheet" />
+
+	<!-- Custom CSS -->
+	<link href="~/assets/css/admin.css" rel="stylesheet" />
+
+	<!-- Font Icons -->
+	<link href="~/assets/css/font-awesome.css" rel="stylesheet" />
+
+	<!-- jQuery -->
+	<link href='http://fonts.googleapis.com/css?family=Roboto:700,500,300,100italic,100,400' rel='stylesheet' type='text/css' />
+	<link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+
+	<link href="~/assets/css/colors.css" rel="stylesheet" />
+
+	<!-- lined-icons -->
+	<link href="~/assets/css/icon-font.min.css" rel="stylesheet" />
+	<style type="text/css">
+		.float-right {
+			float: right;
+		}
+
+		.menu-align-right {
+			right: 0 !important;
+			left: inherit !important;
+		}
+
+		.panel-body{
+			padding: 10px;
+		}
+		.white{color: #fff;}
+		.padding-15{padding: 15px;}
+		.title{
+			/*display: block;
+			margin-left: 50px;*/
+			font-size: 25px;
+		}
+	</style>
+	@RenderSection("Styles", required: false)
+</head>
+<body>
+	<div class="page-container">
+		<!--/content-inner-->
+		<div class="left-content">
+			<div class="inner-content">
+				<!-- header-starts -->
+				<div class="header-section">
+					<!-- top_bg -->
+					<div class="top_bg">
+						<div class="header_top" style="width: 95%; padding-top: 5px; height: 80px !important;">
+							<div class="row">
+								<div class="col-xs-9 text-left">
+									<img class="float-left" src="~/assets/images/logo-white.png" style="max-width: 50px;">
+									<strong class="white padding-15 title">University <em>of</em> Universe</strong>
+								</div>
+								<div class="col-xs-3 text-right padding-15">
+									<div class="dropdown">
+										<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+											User Login
+											<span class="caret"></span>
+										</button>
+										<ul class="dropdown-menu menu-align-right" aria-labelledby="dropdownMenu1">
+											<li><a href="#">Action</a></li>
+											<li><a href="#">Another action</a></li>
+											<li><a href="#">Something else here</a></li>
+											<li role="separator" class="divider"></li>
+											<li><a href="#">Separated link</a></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+							<div class="float-left">
+								
+							</div>
+							<div class="float-right padding-15">
+								
+							</div>
+							<div class="clearfix"> </div>
+						</div>
+					</div>
+					<div class="clearfix"></div>
+					<!-- /top_bg -->
+				</div>
+				<!--content-->
+				<div class="content" style="margin-right: 10px;">
+					<div class="women_main">
+						<!-- start content -->
+						<div class="grids">
+							<div class="panel panel-widget forms-panel">
+								<div class="forms">
+									<div class="form-grids widget-shadow" data-example-id="basic-forms">
+										<div class="form-title">
+											<h4>@ViewBag.ContentTitle</h4>
+										</div>
+										<div class="form-body">
+											@RenderBody()
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- end content -->
+
+						<div class="foot-top hidden">
+							<div class="col-md-6 s-c">
+								<li>
+									<div class="fooll">
+										<h1>follow us on</h1>
+									</div>
+								</li>
+								<li>
+									<div class="social-ic">
+										<ul>
+											<li><a href="#"><i class="facebok"> </i></a></li>
+											<li><a href="#"><i class="twiter"> </i></a></li>
+											<li><a href="#"><i class="goog"> </i></a></li>
+											<li><a href="#"><i class="be"> </i></a></li>
+											<div class="clearfix"></div>
+										</ul>
+									</div>
+								</li>
+								<div class="clearfix"> </div>
+							</div>
+							<div class="col-md-6 s-c">
+								<div class="stay">
+									<div class="stay-left">
+										<form>
+											<input type="text" placeholder="Enter your email" required="">
+										</form>
+									</div>
+									<div class="btn-1">
+										<form>
+											<input type="submit" value="join">
+										</form>
+									</div>
+									<div class="clearfix"> </div>
+								</div>
+							</div>
+							<div class="clearfix"> </div>
+						</div>
+						<div class="footer hidden">
+							<div class="col-md-3 cust">
+								<h4>CUSTOMER CARE</h4>
+								<li><a href="contact.html">Help Center</a></li>
+								<li><a href="faq.html">FAQ</a></li>
+								<li><a href="details.html">How To Buy</a></li>
+								<li><a href="checkout.html">Delivery</a></li>
+							</div>
+							<div class="col-md-2 abt">
+								<h4>ABOUT US</h4>
+								<li><a href="@Url.Action("", "")">Our Stories</a></li>
+								<li><a href="@Url.Action("", "")">Press</a></li>
+								<li><a href="faq.html">Career</a></li>
+								<li><a href="contact.html">Contact</a></li>
+							</div>
+							<div class="col-md-2 myac">
+								<h4>MY ACCOUNT</h4>
+								<li><a href="register.html">Register</a></li>
+								<li><a href="checkout.html">My Cart</a></li>
+								<li><a href="checkout.html">Order History</a></li>
+								<li><a href="details.html">Payment</a></li>
+							</div>
+
+							<div class="col-md-5 our-st">
+								<div class="our-left">
+									<h4>OUR STORES</h4>
+								</div>
+								<li><i class="add"> </i>Mark peter</li>
+								<li><i class="phone"> </i>012-586987</li>
+								<li><a href="mailto:info@example.com"><i class="mail"> </i>info@sitename.com </a></li>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-6 text-left">
+							<p>&copy; 2016 UoU. All Rights Reserved</p>
+						</div>
+						<div class="col-xs-6 text-right">
+							<p>Developed By: sync</p>
+						</div>
+					</div>
+				</div>
+				<!--content-->
+			</div>
+		</div>
+		<!--//content-inner-->
+		<!--/sidebar-menu-->
+		<div class="sidebar-menu">
+			<header class="logo1">
+				<a href="#" class="sidebar-icon"> <span class="fa fa-bars"></span></a>
+			</header>
+			<div style="border-top:1px ridge rgba(255, 255, 255, 0.15)"></div>
+			<div class="menu">
+				<ul id="menu">
+					<li>
+						<a href="@Url.Action("", "index")"><i class="fa fa-home"></i> <span>Home</span></a>
+					</li>
+					<li>
+						<a href="@Url.Action("", "dashboard")"><i class="fa fa-tachometer"></i> <span>Dashboard</span></a>
+					</li>
+					<li id="menu-academico">
+						<a href="#">
+							<i class="fa fa-list"></i>
+							<span>Departments</span>
+							<span class="fa fa-angle-right" style="float: right"></span>
+						</a>
+						<ul id="menu-academico-sub">
+							<li id="menu-academico-avaliacoes"><a href="@Url.Action("", "department")">Show Departments</a></li>
+							<li id="menu-academico-avaliacoes"><a href="@Url.Action("create", "department")">Add Department</a></li>
+						</ul>
+					</li>
+					<li id="menu-academico">
+						<a href="#">
+							<i class="lnr lnr-layers"></i>
+							<span>Courses</span>
+							<span class="fa fa-angle-right" style="float: right"></span>
+						</a>
+						<ul id="menu-academico-sub">
+							<li id="menu-academico-avaliacoes"><a href="@Url.Action("","course")">Show Courses</a></li>
+							<li id="menu-academico-avaliacoes"><a href="@Url.Action("create", "course")">Add Course</a></li>
+							<li id="menu-academico-avaliacoes"><a href="@Url.Action("classroom-allocation", "course")">Classroom Allocation</a></li>
+							<li id="menu-academico-avaliacoes"><a href="@Url.Action("course-schedule", "course")">Course/Room Schedule</a></li>
+						</ul>
+					</li>
+					<li id="menu-academico">
+						<a href="#">
+							<i class="fa fa-group"></i>
+							<span>Teachers</span>
+							<span class="fa fa-angle-right" style="float: right"></span>
+						</a>
+						<ul id="menu-academico-sub">
+							<li id="menu-academico-avaliacoes"><a href="@Url.Action("", "teacher")">Show Teachers</a></li>
+							<li id="menu-academico-avaliacoes"><a href="@Url.Action("add", "teacher")">Add Teacher</a></li>
+							<li id="menu-academico-avaliacoes"><a href="@Url.Action("assign-course", "teacher")">Assign Course</a></li>
+							<li id="menu-academico-avaliacoes"><a href="@Url.Action("course-statics", "teacher")">Course Statics</a></li>
+						</ul>
+					</li>
+					<li id="menu-academico">
+						<a href="#">
+							<i class="fa fa-user"></i>
+							<span>Students</span>
+							<span class="fa fa-angle-right" style="float: right"></span>
+						</a>
+						<ul id="menu-academico-sub">
+							<li id="menu-academico-avaliacoes"><a href="@Url.Action("", "student")">Show Students</a></li>
+							<li id="menu-academico-avaliacoes"><a href="@Url.Action("register", "student")">Add Student</a></li>
+							<li id="menu-academico-avaliacoes"><a href="@Url.Action("enroll-course", "student")">Enroll Course</a></li>
+						</ul>
+					</li>
+					<li id="menu-academico">
+						<a href="#">
+							<i class="fa fa-table"></i>
+							<span>Results</span>
+							<span class="fa fa-angle-right" style="float: right"></span>
+						</a>
+						<ul id="menu-academico-sub">
+							<li id="menu-academico-avaliacoes"><a href="@Url.Action("view-result", "student")">Show Result</a></li>
+							<li id="menu-academico-avaliacoes"><a href="@Url.Action("add-result", "student")">Add Result</a></li>
+						</ul>
+					</li>
+					<li id="menu-academico">
+						<a href="#">
+							<i class="fa fa-gear"></i>
+							<span>Operations</span>
+							<span class="fa fa-angle-right" style="float: right"></span>
+						</a>
+						<ul id="menu-academico-sub">
+							<li id="menu-academico-avaliacoes"><a href="@Url.Action("unassign-courses", "course")">Unassign All Courses</a></li>
+							<li id="menu-academico-avaliacoes"><a href="@Url.Action("unallocate-rooms", "course")">Unallocation All Classrooms</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+	<div class="scripts">
+		<script src="~/assets/js/jquery.min.js"></script>
+
+		<script>
+			var toggle = true;
+			$(".sidebar-icon").click(function () {
+				if (toggle) {
+					$(".page-container").addClass("sidebar-collapsed").removeClass("sidebar-collapsed-back");
+					$("#menu span").css({ "position": "absolute" });
+				} else {
+					$(".page-container").removeClass("sidebar-collapsed").addClass("sidebar-collapsed-back");
+					setTimeout(function () {
+						$("#menu span").css({ "position": "relative" });
+					}, 400);
+				}
+				toggle = !toggle;
+			});
+		</script>
+
+		<!--Validation JS-->
+		<script src="~/assets/js/jquery.validate.min.js"></script>
+		<script src="~/assets/js/jquery.validate.unobtrusive.min.js"></script>
+
+		<!--js -->
+		<script src="~/assets/js/jquery.nicescroll.js"></script>
+		<script src="~/assets/js/scripts.js"></script>
+
+		<!-- Bootstrap Core JavaScript -->
+		<script src="~/assets/js/bootstrap.min.js"></script>
+		<script src="~/assets/js/bootstrap-datepicker.min.js"></script>
+		<!-- /Bootstrap Core JavaScript -->
+		<script src="~/assets/js/menu_jquery.js"></script>
+
+		@RenderSection("Scripts", required: false)
+	</div>
+</body>
+</html>

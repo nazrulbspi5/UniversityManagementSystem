@@ -1,0 +1,60 @@
+﻿
+@{
+    ViewBag.Title = "Unassign Courses";
+    ViewBag.contentTitle = "Unassign Courses";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@section Styles{
+    <link href="~/assets/css/sweetalert.css" rel="stylesheet" />
+}
+
+@if(ViewBag.Message != null)
+{
+<div class="row">
+    <div class="col-sm-8 col-sm-offset-2 text-center">
+        <div class="alert alert-@ViewBag.MessageType">
+            @Html.Raw(ViewBag.Message)
+        </div>
+    </div>
+</div>
+}
+<div class="row">
+    <form id="unassign" method="post">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="unassign" value="true" />
+    </form>
+    <div class="col-sm-4 col-sm-offset-4 text-center">
+        <a id="confirm" class="btn btn-warning btn-block btn-lg">Unassign Courses</a>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/assets/js/sweetalert.min.js"></script>
+    <script>
+        $(function () {
+            $('#confirm').click(function () {
+                swal({
+                        title: "Are you sure?",
+                        text: "This will unassign all courses from teachers and students.",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonClass: "btn-danger",
+                        confirmButtonText: "Yes, continue",
+                        cancelButtonText: "No, cancel",
+                        closeOnConfirm: false,
+                        closeOnCancel: false
+                    },
+                    function (isConfirm) {
+                        if (isConfirm) {
+                            swal("Assigning!", "Please, wait...", "success");
+                            $('#unassign').submit();
+
+                        } else {
+                            swal("Not assigned!", "Unassign cancelled.", "error");
+                        }
+                    });
+            });
+        });
+    </script>
+}

@@ -1,0 +1,68 @@
+﻿
+@{
+    ViewBag.Title = "Course Statics";
+    ViewBag.ContentTitle = "View Course Statics";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@section Styles{
+    <link href="~/assets/css/jquery.dataTables.min.css" rel="stylesheet" />
+}
+
+@using (Html.BeginForm("course-statics", "teacher", FormMethod.Post, new { @class = "form", role = "form" })) {
+    <div class="row">
+        <div class="col-sm-6 col-sm-offset-3">
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-addon">Department</span>
+                    @Html.DropDownList("Departments", null, "--Select--", htmlAttributes: new { @class = "form-control black" })
+                    <span class="input-group-btn hidden">
+                        <button class="btn btn-info" type="submit">Search</button>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <table class="table table-striped table-hover hidden">
+                <thead>
+                    <tr>
+                        <th class="text-center">Code</th>
+                        <th class="text-center">Title</th>
+                        <th class="text-center">Semester</th>
+                        <th class="text-center">Assigned To</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+}
+
+@section Scripts{
+    <script src="~/assets/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(function () {
+            $('#Departments').change(function () {
+                _this = $(this);
+                $.post('@Url.Action("GetCourseStatics")', { deptId: _this.val() }, function (data) {
+                    //console.log(JSON.stringify(data));
+                    var table = $(".table").DataTable();
+                    table.row().clear().draw(false);
+                    $('.table').removeClass('hidden');
+                    if (data == null) {
+                        table.row.add(["No data found"]).draw(false);
+                        return;
+                    }
+                    $.each(data, function (key, value) {
+                        table.row.add([
+                            value.CourseCode,
+                            value.CourseName,
+                            value.Semester,
+                            value.TeacherName
+                        ]).draw(false);
+                    });
+                });
+            });
+        });
+    </script>
+}

@@ -1,0 +1,57 @@
+﻿@model UoUWebApp.Models.DepartmentModel
+
+@{
+    ViewBag.Title = "Create Department";
+    ViewBag.ContentTitle = "Create Department";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@using (Html.BeginForm("create", "department", FormMethod.Post, new { @class = "form", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+
+    if (ViewBag.Message != null)
+    {
+        <div class="row">
+            <div class="col-sm-6 col-sm-offset-3">
+                <div class="alert alert-@ViewBag.MessageType">
+                    @Html.Raw(ViewBag.Message)
+                </div>
+            </div>
+        </div>
+    }
+
+    <div class="row">
+        <div class="col-sm-12 text-right">
+            @Html.ActionLink("Departments List", "Index")
+        </div>
+    </div>
+    <div class="row">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.DeptCode, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-tag"></i></span>
+                @Html.EditorFor(model => model.DeptCode, new { htmlAttributes = new { @class = "form-control black" } })
+            </div>
+            @Html.ValidationMessageFor(model => model.DeptCode, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DeptName, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-asterisk"></i></span>
+                @Html.EditorFor(model => model.DeptName, new { htmlAttributes = new { @class = "form-control black" } })
+            </div>
+            @Html.ValidationMessageFor(model => model.DeptName, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="Create" class="btn btn-default" />
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Html.Partial("~/Views/Shared/_jQueryValidatorBootstrapStyle.cshtml")
+}

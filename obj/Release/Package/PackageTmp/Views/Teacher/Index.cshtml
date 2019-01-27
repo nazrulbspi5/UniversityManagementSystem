@@ -1,0 +1,84 @@
+﻿@model IEnumerable<UoUWebApp.Models.TeacherModel>
+
+@{
+    ViewBag.Title = "Teachers";
+    ViewBag.ContentTitle = "Teachers";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@section Styles{
+    <link href="~/assets/css/jquery.dataTables.min.css" rel="stylesheet" />
+}
+
+<p>
+    @Html.ActionLink("Create New", "add")
+</p>
+@if(ViewBag.Message != null)
+{
+    <div class="row">
+        <div class="col-sm-6 col-sm-offset-3">
+            <div class="alert alert-@ViewBag.MessageType">
+                @ViewBag.Message
+            </div>
+        </div>
+    </div>
+}
+<table class="table table-hover table-striped">
+    <thead>
+        <tr>            
+            <th class="text-center">
+                @Html.DisplayNameFor(model => model.TeacherName)
+            </th>
+            <th class="text-center">
+                @Html.DisplayNameFor(model => model.TeacherEmail)
+            </th>
+            <th class="text-center">
+                @Html.DisplayNameFor(model => model.TeacherContact)
+            </th>
+            <th class="text-center">
+                @Html.DisplayNameFor(model => model.DesignationModel.Designation)
+            </th>
+            <th class="text-center">
+                Department <br /> Code/Name
+            </th>
+            <th class="text-center">
+                @Html.DisplayNameFor(model => model.TotalCredit)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TeacherName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TeacherEmail)
+                </td>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.TeacherContact)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DesignationModel.Designation)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DepartmentModel.Department)
+                </td>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.TotalCredit)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts{
+    <script src="~/assets/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(function () {
+            $('.table').DataTable();
+        });
+    </script>
+}

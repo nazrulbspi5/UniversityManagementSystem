@@ -1,0 +1,167 @@
+﻿@model UoUWebApp.Models.RoomAllocationModel
+
+@{
+    ViewBag.Title = "Classroom Allocation";
+    ViewBag.ContentTitle = "Classroom Allocation";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@section Styles{
+    @*<link href="~/assets/css/bootstrap-datepicker3.min.css" rel="stylesheet" />*@
+    <link href="~/assets/css/bootstrap-timepicker.min.css" rel="stylesheet" />
+}
+
+@using (Html.BeginForm("classroom-allocation", "course", FormMethod.Post, new { @class = "form", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <div class="col-sm-12 text-right">
+            @Html.ActionLink("Course Schedule", "course-schedule")
+        </div>
+    </div>
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    if(ViewBag.Message != null)
+    {
+        <div class="row">
+            <div class="col-sm-8 col-sm-offset-2 text-center">
+                <div class="alert alert-@ViewBag.MessageType">
+                    @Html.Raw(ViewBag.Message)
+                </div>
+            </div>
+        </div>
+    }
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group">
+                @Html.LabelFor(model => model.CourseDeptId, htmlAttributes: new { @class = "control-label" })
+                <div class="input-group">
+                    <span class="input-group-addon"></span>
+                    @Html.DropDownListFor(model => model.CourseDeptId, null, "--Select--", htmlAttributes: new { @class = "form-control black" })
+                </div>
+                @Html.ValidationMessageFor(model => model.CourseDeptId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.RoomAllocationCourseId, htmlAttributes: new { @class = "control-label" })
+                <div class="input-group">
+                    <span class="input-group-addon"></span>
+                    @Html.DropDownListFor(model => model.RoomAllocationCourseId, null, htmlAttributes: new { @class = "form-control black" })
+                </div>
+                @Html.ValidationMessageFor(model => model.RoomAllocationCourseId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.RoomAllocationRoomId, htmlAttributes: new { @class = "control-label" })
+                <div class="input-group">
+                    <span class="input-group-addon"></span>
+                    @Html.DropDownListFor(model => model.RoomAllocationRoomId, null, "--Select--", htmlAttributes: new { @class = "form-control black" })
+                </div>
+                @Html.ValidationMessageFor(model => model.RoomAllocationRoomId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="form-group">
+                @Html.LabelFor(model => model.RoomAllocationDayId, htmlAttributes: new { @class = "control-label" })
+                <div class="input-group">
+                    <span class="input-group-addon"></span>
+                    @Html.DropDownListFor(model => model.RoomAllocationDayId, null, "--Select--", htmlAttributes: new { @class = "form-control black" })
+                </div>
+                @Html.ValidationMessageFor(model => model.RoomAllocationDayId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                @Html.LabelFor(model => model.FromTime, htmlAttributes: new { @class = "control-label" })
+                <div class="input-group bootstrap-timepicker timepicker">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                    @Html.EditorFor(model => model.FromTime, new { htmlAttributes = new { @class = "form-control black" } })
+                </div>
+                @Html.ValidationMessageFor(model => model.FromTime, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                @Html.LabelFor(model => model.ToTime, htmlAttributes: new { @class = "control-label" })
+                <div class="input-group bootstrap-timepicker timepicker">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                    @Html.EditorFor(model => model.ToTime, new { htmlAttributes = new { @class = "form-control black" } })
+                </div>
+                @Html.ValidationMessageFor(model => model.ToTime, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <input type="hidden" name="RecordStatus" value="1" />
+            <input type="submit" value="Allocate Classroom" class="btn btn-default" />
+        </div>
+    </div>
+}
+
+@section Scripts{
+    @Html.Partial("~/Views/Shared/_jQueryValidatorBootstrapStyle.cshtml")
+    @*<script src="~/assets/js/bootstrap-datepicker.min.js"></script>*@
+    <script src="~/assets/js/bootstrap-timepicker.min.js"></script>
+    <script>
+        $(function () {
+            $('#FromTime').timepicker({
+                minuteStep: 1,
+                template: 'dropdown',
+                appendWidgetTo: 'body',
+                showSeconds: false,
+                showMeridian: false,
+                defaultTime: false
+            });
+            $('#ToTime').timepicker({
+                minuteStep: 1,
+                template: 'dropdown',
+                appendWidgetTo: 'body',
+                showSeconds: false,
+                showMeridian: false,
+                defaultTime: false
+            });
+        });
+        $('#CourseDeptId').change(function () {
+            _this = $(this);
+            if (_this.val() == "") {
+                $('#RoomAllocationCourseId').empty()
+                                            .append($('<option></option>')
+                                                .attr('value', '')
+                                                .text('Select Department First'))
+                                            .closest('.form-group').removeClass('has-success has-error')
+                                            .find('select').next('span').remove();
+                return;
+            }
+            $.post('@Url.Action("GetCoursesByDeptId")', { deptId: _this.val() }, function (data) {
+                console.log(JSON.stringify(data));
+                if (data == null || data == "") {
+                    $('#RoomAllocationCourseId').empty()
+                                                .append($('<option></option>')
+                                                    .attr('value', '')
+                                                    .text('No course found!'))
+                                                .closest('.form-group').removeClass('has-success has-error')
+                                                .find('select').next('span').remove();
+                    return;
+                }
+                $('#RoomAllocationCourseId').empty().append($('<option></option>')
+                                                                .attr('value', '')
+                                                                .text('--Select--'));
+                $.each(data, function (key, value) {
+                    $('#RoomAllocationCourseId').append($('<option></option>')
+                                                             .attr('value', value.CourseId)
+                                                             .text(value.Course));
+                });
+            });
+        });
+    </script>
+}

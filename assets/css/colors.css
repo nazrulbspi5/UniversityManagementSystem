@@ -1,0 +1,36 @@
+﻿/*color*/
+.white      {color: #ffffff !important;}
+.black      {color: #000000 !important;}
+.yellow     {color: #FAF01C !important;}
+.red        {color: #ff0000 !important;}
+.red-light  {color: #e53935 !important;}
+.pink       {color: #F2498F !important;}
+.pink-deep  {color: #BF0A55 !important;}
+.deep-orange{color: #FF3135 !important;}
+.orange     {color: #FF7F31 !important;}
+.green      {color: #1A831A !important;}
+.parrot     {color: #99BF25 !important;}
+.blue       {color: #2DAFD6 !important;}
+.deep-blue  {color: #225DAE !important;}
+.soil       {color: #D49E46 !important;}
+.off-white  {color: #F5F5F5 !important;}
+.off-black  {color: #2C2C2C !important;}
+
+/*background-color*/
+.bg-white      {background-color: #ffffff !important;}
+.bg-black      {background-color: #000000 !important;}
+.bg-yellow     {background-color: #FAF01C !important;}
+.bg-red        {background-color: #ff0000 !important;}
+.bg-red-light  {background-color: #e53935 !important;}
+.bg-pink       {background-color: #F2498F !important;}
+.bg-pink-deep  {background-color: #BF0A55 !important;}
+.bg-deep-orange{background-color: #FF3135 !important;}
+.bg-orange     {background-color: #FF7F31 !important;}
+.bg-green      {background-color: #1A831A !important;}
+.bg-parrot     {background-color: #99BF25 !important;}
+.bg-blue       {background-color: #2DAFD6 !important;}
+.bg-deep-blue  {background-color: #225DAE !important;}
+.bg-soil       {background-color: #D49E46 !important;}
+.bg-off-white  {background-color: #F5F5F5 !important;}
+.bg-off-black  {background-color: #2C2C2C !important;}
+.bg-transparent {background-color: transparent !important !important;}

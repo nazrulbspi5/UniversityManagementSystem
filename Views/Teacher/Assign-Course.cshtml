@@ -1,0 +1,289 @@
+﻿@model UoUWebApp.Models.TeacherCourseModel
+
+@{
+    ViewBag.Title = "Assign Course";
+    ViewBag.ContentTitle = "Assign Course";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@section Styles{
+    <link href="~/assets/css/sweetalert.css" rel="stylesheet" />
+}
+
+@using (Html.BeginForm("assign-course", "teacher", FormMethod.Post, new { @class = "form", role = "form", onsubmit = "javascript:return validate();" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="row">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        @if (ViewBag.Message != null)
+        {
+            <div class="col-sm-8 col-sm-offset-2">
+                <div class="alert alert-@ViewBag.MessageType">
+                    @Html.Raw(ViewBag.Message)
+                </div>
+            </div>
+        }
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    @Html.Label("Department:", htmlAttributes: new { @class = "control-label" })
+                    <div class="input-group">
+                        <span class="input-group-addon"></span>
+                        @Html.DropDownListFor(model => model.TeacherCourseDeptId, null, "--Select--", htmlAttributes: new { @class = "form-control black" })
+                    </div>
+                    @Html.ValidationMessageFor(model => model.TeacherCourseDeptId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TeacherCourseTeacherId, htmlAttributes: new { @class = "control-label" })
+                    <div class="input-group">
+                        <span class="input-group-addon"></span>
+                        @Html.DropDownListFor(model => model.TeacherCourseTeacherId, null, htmlAttributes: new { @class = "form-control black" })
+                    </div>
+                    @Html.ValidationMessageFor(model => model.TeacherCourseTeacherId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    @Html.Label("CreditTaken", "Credit to be taken:", new { @class = "control-label" })
+                    <div class="input-group">
+                        <span class="input-group-addon"></span>
+                        @Html.TextBox("CreditTaken", null, new { @class = "form-control black", disabled = "disabled" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    @Html.Label("RemainingCredit", "Remaining Credit:", new { @class = "control-label" })
+                    <div class="input-group">
+                        <span class="input-group-addon"></span>
+                        @Html.TextBox("RemainingCredit", null, new { @class = "form-control black", disabled = "disabled" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TeacherCourseCourseId, htmlAttributes: new { @class = "control-label" })
+                    <div class="input-group">
+                        <span class="input-group-addon"></span>
+                        @Html.DropDownListFor(model => model.TeacherCourseCourseId, null, htmlAttributes: new { @class = "form-control black" })
+                    </div>
+                    @Html.ValidationMessageFor(model => model.TeacherCourseCourseId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-8">
+                <div class="form-group">
+                    @Html.Label("CourseName", "Course Name:", new { @class = "control-label" })
+                    <div class="input-group">
+                        <span class="input-group-addon"></span>
+                        @Html.TextBox("CourseName", null, new { @class = "form-control black", disabled = "disabled" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    @Html.Label("CourseCredit", "Course Credit:", new { @class = "control-label" })
+                    <div class="input-group">
+                        <span class="input-group-addon"></span>
+                        @Html.TextBox("CourseCredit", null, new { @class = "form-control black", disabled = "disabled" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <input type="hidden" value="1" name="RecordStatus" />
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts{
+    @Html.Partial("~/Views/Shared/_jQueryValidatorBootstrapStyle.cshtml");
+    <script src="~/assets/js/sweetalert.min.js"></script>
+    <script>
+        var Teachers = null;
+        var Courses = null;
+        var TeacherCourses = null;
+        var AssigedCredit = 0;
+        $(function () {
+            $('#TeacherCourseDeptId').change(function () {
+                Teachers = Courses = TeacherCourses = null;
+                clearTeacherCredits();
+                clearCourseData();
+                if ($('#TeacherCourseDeptId').val() == "") {
+                    $('#TeacherCourseTeacherId').empty()
+                                                .append($('<option></option>')
+                                                            .attr('value', '')
+                                                            .text('Select Department First'))
+                                                .closest('.form-group').removeClass('has-success has-error')
+                                                .find('select').next('span').remove();
+                    $('#TeacherCourseCourseId').empty()
+                                               .append($('<option></option>')
+                                                            .attr('value', '')
+                                                            .text('Select Department First'))
+                                               .closest('.form-group').removeClass('has-success has-error')
+                                               .find('select').next('span').remove();
+                    return;
+                }
+                $.post('@Url.Action("GetByDeptId")', { deptId: $(this).val() }, function (data) {
+                    if (data.Teachers != null)
+                        Teachers = data.Teachers;
+                    if (data.Courses != null)
+                        Courses = data.Courses;
+
+                    //Teachers Data
+                    if (Teachers != null) {
+                        $('#TeacherCourseTeacherId').empty().append($('<option></option>')
+                                                                .attr('value', '')
+                                                                .text('--Select--'));
+                        $.each(Teachers, function (index, value) {
+                            $('#TeacherCourseTeacherId').append($('<option></option>')
+                                                                .attr('value', value.TeacherId)
+                                                                .text(value.TeacherName));
+                        });
+                    } else {
+                        $('#TeacherCourseTeacherId').empty().append($('<option></option>')
+                                                                .attr('value', '')
+                                                                .text('NO TEACHER FOUND!'));
+                    }
+
+                    //Courses Data
+                    if (Courses != null) {
+                        $('#TeacherCourseCourseId').empty().append($('<option></option>')
+                                                                .attr('value', '')
+                                                                .text('--Select--'));
+                        $.each(Courses, function (index, value) {
+                            $('#TeacherCourseCourseId').append($('<option></option>')
+                                                                .attr('value', value.CourseId)
+                                                                .text(value.CourseCode));
+                        });
+                    } else {
+                        $('#TeacherCourseCourseId').empty().append($('<option></option>')
+                                                                .attr('value', '')
+                                                                .text('NO COURSE FOUND!'));
+                    }
+                });
+
+            });
+
+            $('#TeacherCourseTeacherId').change(function () {
+                _this = $(this);
+                resetCourseSelected();
+                if (_this.val() == "") {
+                    clearTeacherCredits();
+                    return;
+                }
+                $.each(Teachers, function (key, value) {
+                    if (parseInt(value.TeacherId) == parseInt(_this.val())) {
+                        $("#CreditTaken").val(value.TotalCredit);
+                    }
+                });
+                $.post('@Url.Action("GetTeacherCourses")', { teacherId: $(this).val(), deptId: $('#TeacherCourseDeptId').val() }, function (data) {
+                    TeacherCourses = data.Courses;
+                    $('#TeacherCourseCourseId').children('option').removeAttr('disabled');
+                    $.each(TeacherCourses, function (key, value) {
+                        $('#TeacherCourseCourseId').find('option[value=' + value.CourseId + ']').attr('disabled', 'disabled');
+                    });
+                    $("#RemainingCredit").val(parseFloat($('#CreditTaken').val()) - parseFloat(data.CreditTaken));
+                    AssigedCredit = parseFloat(data.CreditTaken);
+                });
+            });
+
+            $('#TeacherCourseCourseId').change(function () {
+                _this = $(this);
+                if (_this.val() == "") {
+                    clearCourseData();
+                    return;
+                }
+                $.each(Courses, function (key, value) {
+                    if (parseInt(value.CourseId) == parseInt(_this.val())) {
+                        $("#CourseName").val(value.CourseName);
+                        $("#CourseCredit").val(value.CourseCredit);
+                    }
+                });
+            });
+        });
+
+        function clearTeacherCredits() {
+            $("#CreditTaken").val("");
+            $("#RemainingCredit").val("");
+        }
+
+        function clearCourseData() {
+            $("#CourseName").val("");
+            $("#CourseCredit").val("");
+        }
+
+        function resetCourseSelected() {
+            $('#TeacherCourseCourseId').prop('selectedIndex', 0);
+            clearCourseData();
+        }
+
+        function validate() {
+            $('.form').submit(function (event) {
+                event.preventDefault();
+                var futureRemainingCredit = (parseFloat($('#CreditTaken').val()) - (AssigedCredit + parseFloat($('#CourseCredit').val())));
+
+                if (futureRemainingCredit < 0 && submitForm()) {
+                    var message = "You are trying to assign over credit to " +
+                                    $('#TeacherCourseTeacherId option:selected').text() +
+                                    ((futureRemainingCredit < 0) ? ". Already overcredited " : " There are more ") +
+                                    $('#RemainingCredit').val() + " credit(s). But you are trying to assign more " +
+                                    $('#CourseCredit').val() + " credit(s)";
+                    swal({
+                        title: "Are you sure?",
+                        text: message,
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonClass: "btn-danger",
+                        confirmButtonText: "Yes, assign",
+                        cancelButtonText: "No, cancel",
+                        closeOnConfirm: false,
+                        closeOnCancel: false
+                    },
+                    function (isConfirm) {
+                        if (isConfirm) {
+                            swal("Assigning!", "Please, wait...", "success");
+                            $('.form').unbind('submit').submit();
+
+                        } else {
+                            swal("Not assigned!", "Over assigning cancelled.", "error");
+                        }
+                    });
+                }else {
+                    if(submitForm())
+                        $('.form').unbind('submit').submit();
+                }
+            });
+        }
+
+        function submitForm() {
+            if ($('#TeacherCourseDeptId').val() != ""
+                && $('#TeacherCourseTeacherId').val() != ""
+                && $('#TeacherCourseCourseId').val() != "") {
+                return true;
+            }
+            return false;
+        }
+    </script>
+}

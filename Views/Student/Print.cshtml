@@ -1,0 +1,90 @@
+﻿@model IEnumerable<UoUWebApp.Models.StudentCourseResultModel>
+
+@{
+    ViewBag.Title = "Print";
+    Layout = null;
+}
+
+<!doctype html>
+<html>
+<head>
+    <title>Result</title>
+    <link href="~/assets/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        .font-17{font-size: 17px;}
+        .bold{font-weight: bold;}
+        .width-30{width: 30%;}
+        .container{
+            background: rgba(255,255,255, .03) url(@Url.Content("~/assets/images/logo-black.png")) center center no-repeat;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row" style="background: rgba(255,255,255, .9);">
+            <div class="col-sm-8 col-sm-offset-2">
+                <div class="row">
+                    <div class="col-sm-4 col-sm-offset-4 text-center">
+                        <img src="~/assets/images/logo-250.png" style="margin: auto;" />
+                    </div>
+                    @*<div class="col-sm-12 text-center">
+                        <h2>University <em>of</em> Universe</h2>
+                    </div>*@
+                    <div class="col-sm-12 text-center">
+                        <h3>Result Sheet</h3>
+                        <hr/>
+                    </div>
+                    <div class="col-sm-12" style="margin-bottom: 30px !important;">
+                        <table class="font-17" style="width: 100%;">
+                            <tr>
+                                <td class="bold width-30">Student Reg No:</td>
+                                <td>@Model.Select(x => x.StudentRegNo).Take(1).ToArray()[0]</td>
+                            </tr>
+                            <tr>
+                                <td class="bold width-30">Student Name:</td>
+                                <td>@Model.Select(x => x.StudentName).Take(1).ToArray()[0]</td>
+                            </tr>
+                            <tr">
+                                <td class="bold width-30">Department:</td>
+                                <td>@Model.Select(x => x.Department).Take(1).ToArray()[0]</td>
+                            </tr>
+                            <tr">
+                                <td class="bold width-30">Semester</td>
+                                <td>@Model.Select(x => x.Semester).Take(1).ToArray()[0]</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <table class="font-17 table table-bordered table-striped" style="margin-bottom: 50px;">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Course Code</th>
+                                <th class="text-center">Course Name</th>
+                                <th class="text-center">Grade</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var result in Model)
+                            {
+                                <tr>
+                                    <td class="text-center">@result.CourseCode</td>
+                                    <td>@result.CourseName</td>
+                                    <td class="text-center">@result.Grade</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-sm-6">
+                    <b>Printed On:</b> @DateTime.Now.Day @DateTime.Now.ToString("MMMM"), @DateTime.Now.Year
+                </div>
+                <div class="col-sm-6 text-right">
+                    Controller Signature
+                </div>
+            </div>
+        </div>
+    </div>    
+</body>
+</html>
+
+

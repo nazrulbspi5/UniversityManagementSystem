@@ -1,0 +1,144 @@
+﻿@model UoUWebApp.Models.StudentCourseModel
+
+@{
+    ViewBag.Title = "Add Result";
+    ViewBag.ContentTitle = "Add Result";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@section Styles{
+}
+
+
+@using (Html.BeginForm("add-result", "student", FormMethod.Post, new { @class = "form", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="row">
+        <div class="col-sm-12 text-right">
+            @Html.ActionLink("View Student Courses Result", "view-result")
+        </div>
+    </div>
+
+    if(ViewBag.Message != null)
+    {
+        <div class="row">
+            <div class="col-sm-8 col-sm-offset-2 text-center">
+                <div class="alert alert-@ViewBag.MessageType">
+                    @Html.Raw(ViewBag.Message)
+                </div>
+            </div>
+        </div>
+    }
+
+    <div class="row">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="col-sm-12">
+            <div class="form-group">
+                @Html.LabelFor(model => model.StudentCourseStudentId, htmlAttributes: new { @class = "control-label" })
+                <div class="input-group">
+                    <span class="input-group-addon"></span>
+                    @Html.DropDownListFor(model => model.StudentCourseStudentId, null, "--Select--", htmlAttributes: new { @class = "form-control black" })
+                </div>
+                @Html.ValidationMessageFor(model => model.StudentCourseStudentId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label for="StudentName">Student Name</label>
+                <div class="input-group">
+                    <span class="input-group-addon"></span>
+                    <input type="text" id="StudentName" class="form-control black" disabled="disabled" />
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label for="StudentEmail">Student Email</label>
+                <div class="input-group">
+                    <span class="input-group-addon"></span>
+                    <input type="text" id="StudentEmail" class="form-control black" disabled="disabled" />
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label for="Department">Department</label>
+                <div class="input-group">
+                    <span class="input-group-addon"></span>
+                    <input type="text" id="Department" class="form-control black" disabled="disabled" />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.StudentCourseCourseId, htmlAttributes: new { @class = "control-label" })
+                <div class="input-group">
+                    <span class="input-group-addon"></span>
+                    @Html.DropDownListFor(model => model.StudentCourseCourseId, null, "--Select Student Registration First--", htmlAttributes: new { @class = "form-control black" })
+                </div>
+                @Html.ValidationMessageFor(model => model.StudentCourseCourseId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Grade, htmlAttributes: new { @class = "control-label" })
+                <div class="input-group">
+                    <span class="input-group-addon"></span>
+                    @Html.DropDownListFor(model => model.Grade, null, "--select--", new { @class = "form-control black", required = "required" })
+                </div>
+                @Html.ValidationMessageFor(model => model.Grade, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="col-sm-12">
+            <input type="submit" value="Save" class="btn btn-success" />
+        </div>
+    </div>
+
+
+}
+
+@section Scripts{
+    @Html.Partial("~/Views/Shared/_jQueryValidatorBootstrapStyle.cshtml");
+    <script>
+        $(function () {
+            $('#Grade')
+                .attr('data-val-required', "Select grade.")
+                .attr('data-error', 'Please, select grade');
+            $('#EnrollDate').datepicker();
+            $('#StudentCourseStudentId').change(function () {
+                if ($(this).val() != "") {
+                    $.post('@Url.Action("GetStudentInfoById")', { studentId: $(this).val() }, function (data) {
+                        $('#StudentName').val(data.StudentName);
+                        $('#StudentEmail').val(data.StudentEmail);
+                        $('#Department').val(data.StudentDeptment);
+
+                        if($.isEmptyObject(data.StudentCourses)) {
+                            $('#StudentCourseCourseId').empty().append($('<option></option>')
+                                                                        .attr('value', '')
+                                                                        .text("--NO COURSE FOUND ENROLLED--"));
+                            return;
+                        }
+                        $('#StudentCourseCourseId').empty().append($('<option></option>')
+                                                                        .attr('value', '')
+                                                                        .text("--Select--"));
+                        $.each(data.StudentCourses, function (key, value) {
+                            $('#StudentCourseCourseId').append($('<option></option>')
+                                                                    .attr('value', value.CourseId)
+                                                                    .text(value.Course));
+                        });
+                    });
+                } else {
+                    $('#StudentCourseCourseId').empty().append($('<option></option>')
+                                                                        .attr('value', '')
+                                                                        .text("--Select Student Reg. No First--"));
+                }
+            });
+        });
+    </script>
+}
